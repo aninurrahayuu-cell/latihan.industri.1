@@ -11,21 +11,22 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('posts', function (Blueprint $table) {
-            $table->id();
-            $table->string('tittle')->unique();
-            $table->string('content');
-            $table->string('cover');
-            $table->timestamps();
-        });
+        // database/migrations/xxxx_xx_xx_create_dosens_table.php
+    Schema::create('dosens', function (Blueprint $table) {
+    $table->id();
+    $table->string('nama');
+    $table->string('nipd')->unique();
+    $table->timestamps();
+});
+
+
     }
-    
 
     /**
      * Reverse the migrations.
      */
     public function down(): void
     {
-        Schema::dropIfExists('posts');
+        Schema::dropIfExists('dosens');
     }
 };

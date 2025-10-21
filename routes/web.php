@@ -1,9 +1,14 @@
 <?php
 
+use App\Models\Mahasiswa;
+use App\Models\Wali;
+use App\Http\Controllers\RelasiController;
 use App\Http\Controllers\PostsController;
 use App\Models\Siswa;
 use App\Http\Controllers\BiodatasController;
+use App\Http\Controllers\PenggunasController;
 use App\Http\Controllers\ProductController;
+use App\Models\Product;
 use Illuminate\Support\Facades\Route;
 use PHPUnit\Logging\JUnit\TestPrintedUnexpectedOutputSubscriber;
 
@@ -19,17 +24,17 @@ Route::get('/profile', function () {
     return 'Selamat datang di halaman profile';
 });
 
-Route::get('/biodata/{nama}/{tgl}/{jns}/{tmpt}/{almt}/{agm}/{tlp}', 
-    function ($nama, $tgl, $jns, $tmpt, $almt, $agm, $tlp){
-    return " <h1>Biodata</h1><br>" .
-    "Nama Lengkap : $nama <br>" .
-    "Tanggal Lahir : $tgl <br>" .
-    "Jenis Kelamin : $jns <br>" . 
-    "Tempat Lahir : $tmpt <br>" . 
-    "Alamat : $almt<br>" . 
-    "Agama : $agm<br>" . 
-    "Telepon : $tlp";
-});
+// Route::get('/biodata/{nama}/{tgl}/{jns}/{tmpt}/{almt}/{agm}/{tlp}', 
+//     function ($nama, $tgl, $jns, $tmpt, $almt, $agm, $tlp){
+//     return " <h1>Biodata</h1><br>" .
+//     "Nama Lengkap : $nama <br>" .
+//     "Tanggal Lahir : $tgl <br>" .
+//     "Jenis Kelamin : $jns <br>" . 
+//     "Tempat Lahir : $tmpt <br>" . 
+//     "Alamat : $almt<br>" . 
+//     "Agama : $agm<br>" . 
+//     "Telepon : $tlp";
+// });
 
 Route::get('/hitung/{blgn1}/{blgn2}', function ($blgn1, $blgn2) {
     $hasil = $blgn1 + $blgn2;
@@ -135,9 +140,9 @@ Route::get('halaman3', function () {
     return view('tampil3', compact('idola'));
 });
 
-Route::get('post', [PostsController::class, 'tampil']);
+// Route::get('post', [PostsController::class, 'tampil']);
 
-Route::get('biodata', [BiodatasController::class, 'tampilin']);
+// Route::get('biodata', [BiodatasController::class, 'tampilin']);
 
 Route::get('/product', [ProductController::class, 'index'])->name('product');
 
@@ -189,3 +194,62 @@ Route::get('/product', [ProductController::class, 'index'])->name('product');
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+
+
+    //slh satu
+    // Route::get('product_b1', function () {
+    //     return $product = Product::find(1);
+    // });
+
+    //ganti
+    Route::get('product_up', function () {
+    $product = Product::find(17);
+        $product->name = "Pisang Keju";
+        $product->save();
+        return $product;
+    });
+
+    //hapus
+    Route::get('product_delete', function () {
+        $product = Product::find(8);
+        $product->delete();
+        return $product;
+    });
+
+    //nambah 
+    Route::get('product_create', function () {
+    $product = new Product;
+        $product->name = "Pisang";
+        $product->description = "sangat lezat";
+        $product->price = "10000";
+        $product-> stock = "20";
+        $product->save();
+        return $product;
+    });
+
+     Route::get('product_semua', function () {
+    $product = Product::all();
+    return view('halaman_product', compact('product'));
+    });
+
+    Route::resource('post', PostsController::class);
+    Route::resource('biodata', BiodatasController::class);
+    Route::resource('pengguna', PenggunasController::class);
+
+    //RELASI ONE TO ONE
+    Route::get('/one-to-one', [RelasiController::class, 'oneToOne']);
+
+
+    Route::get('/wali-ke-mahasiswa', function () {
+    $wali = Wali::with('mahasiswa')->first();
+    return "{$wali->nama} adalah wali dari {$wali->mahasiswa->nama}";
+});
+
+    // relasi one to many
+    Route::get('/one-to-many', [RelasiController::class, 'oneToMany']);
+
+    Route::get('/mahasiswa-ke-dosen', function () {
+    $mhs = Mahasiswa::where('nim', '123456`')->first();
+    return "{$mhs->nama} dibimbing oleh {$mhs->dosen->nama}";
+});

@@ -118,3 +118,7 @@ class BiodatasTableSeeder extends Seeder
         ]);
     }
 }
+
+
+
+
