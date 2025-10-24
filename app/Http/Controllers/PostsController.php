@@ -92,7 +92,7 @@ class PostsController extends Controller
      */
     public function update(Request $request, string $id)
     {
-         $request->validate([
+        $request->validate([
         'tittle' => 'required|string|max:255|unique:posts,tittle',
         'content' => 'required|string|max:255|unique:posts,content',
     ]);

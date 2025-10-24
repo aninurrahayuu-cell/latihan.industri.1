@@ -54,9 +54,7 @@ class PenggunasController extends Controller
     public function show(string $id)
     {
 
-         $request->validate([
-        'nama' => 'required|string|max:255',
-        ]);
+        
 
         $penggunas = Pengguna::findOrFail($id);
         return view('pengguna.show', compact('penggunas'));

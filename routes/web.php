@@ -1,5 +1,12 @@
 <?php
 
+use App\Http\Controllers\TransaksiController;
+use App\Http\Controllers\PembeliController;
+use App\Http\Controllers\BarangController;
+use App\Http\Controllers\MuridController;
+use App\Http\Controllers\KelasController;
+use App\Http\Controllers\TeleponController;
+// use App\Http\Controllers\TransaksiController;
 use App\Models\Hobi;
 use App\Models\Mahasiswa;
 use App\Models\Wali;
@@ -265,3 +272,13 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 });
 
     Route::get('eloquent', [RelasiController::class, 'eloquent']);
+
+     Route::resource('telepon', TeleponController::class);
+     
+     Route::resource('kelas', KelasController::class);
+     Route::resource('murid', MuridController::class);
+
+     Route::resource('barang', BarangController::class);
+     Route::resource('pembeli', PembeliController::class);
+     Route::resource('transaksi', TransaksiController::class);
+     
